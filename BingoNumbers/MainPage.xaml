@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:BingoNumbers.ViewModels"
+             x:Class="BingoNumbers.MainPage"
+             Title="Bingo Numbers"
+             Padding="5"
+             BackgroundColor="#484848">
+
+    <ContentPage.BindingContext>
+        <viewModels:BingoNumbersViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="buttonStyle" TargetType="Button">
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="BackgroundColor" Value="DarkOrange" />
+            </Style>
+            <Style x:Key="drawnNumberStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="TextColor" Value="Yellow" />
+                <Setter Property="FontSize" Value="100.0" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="LineBreakMode" Value="NoWrap" />
+            </Style>
+            <Style x:Key="numberHistoryStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="TextColor" Value="OldLace" />
+                <Setter Property="FontSize" Value="35.0" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+            </Style>
+            <Style x:Key="entryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid x:Name="mainGrid" 
+          RowDefinitions="*,auto,auto,auto"
+          ColumnDefinitions="auto"
+          RowSpacing="8"
+          HorizontalOptions="CenterAndExpand" 
+          VerticalOptions="FillAndExpand"
+          BackgroundColor="#484848">
+
+        <!--grid row 0-->
+            <ScrollView Grid.Row="0"
+                        Grid.Column="0">
+            <VerticalStackLayout>
+                <Label Text="{Binding Path=DrawnNumber}"
+                       Style="{StaticResource drawnNumberStyle}"/>
+                <Label Text="{Binding Path=DrawnNumberHistory}" 
+                       Style="{StaticResource numberHistoryStyle}"/>
+            </VerticalStackLayout>
+                
+            </ScrollView>
+
+            <!--grid row 1-->
+        <ProgressBar Grid.Row="1"
+                        Grid.Column="0"
+                        MinimumHeightRequest="28"
+                        HeightRequest="28"
+                        Progress="{Binding Path=Progress}"
+                        IsVisible="true"
+                        VerticalOptions="Center" 
+                        BackgroundColor="#484848"
+                        HorizontalOptions="FillAndExpand"
+                        ProgressColor="LightGoldenrodYellow"/>
+
+
+        <!--grid row 2-->
+        <HorizontalStackLayout Grid.Row="2"
+                               Grid.Column="0">
+            <Button Text="Reset"
+                     Command="{Binding Path=ResetNumberListCommand}"
+                     Style="{StaticResource buttonStyle}"
+                     MinimumWidthRequest="90"/>
+            <Frame HorizontalOptions="FillAndExpand" 
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"/>
+            <Button Text="Draw"
+                    Command ="{Binding Path=DrawNumberCommand}"
+                    Style="{StaticResource buttonStyle}"
+                    MinimumWidthRequest="250"/>
+        </HorizontalStackLayout>
+
+
+        <!--grid row 3-->
+        <HorizontalStackLayout Grid.Row="3"
+                               Grid.Column="0"
+                               HorizontalOptions="CenterAndExpand"
+                               BackgroundColor="#484848">
+            <Button Text="-"
+                        Command="{Binding Path=LowerBoundDecrCommand}"
+                        WidthRequest="35"
+                        Style="{StaticResource buttonStyle}"/>
+            <Entry Text="{Binding Path=LowerBound, Mode=TwoWay}"
+                        Keyboard="Numeric"
+                        WidthRequest="65"
+                        IsEnabled="{Binding Path=NumberListFull}"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource entryStyle}"/>
+            <Button Text="+"
+                        Command="{Binding Path=LowerBoundIncrCommand}"
+                        WidthRequest="35"
+                        Style="{StaticResource buttonStyle}"/>
+
+            <Frame HorizontalOptions="FillAndExpand" 
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"/>
+
+            <Button Text="-"
+                        Command="{Binding Path=UpperBoundDecrCommand}"
+                        WidthRequest="35"
+                        Style="{StaticResource buttonStyle}"/>
+            <Entry Text="{Binding Path=UpperBound, Mode=TwoWay}"
+                        Keyboard="Numeric"
+                        WidthRequest="65"
+                        IsEnabled="{Binding Path=NumberListFull}"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource entryStyle}"/>
+            <Button Text="+"
+                        Command="{Binding Path=UpperBoundIncrCommand}"
+                        WidthRequest="35"
+                        Style="{StaticResource buttonStyle}"/>
+        </HorizontalStackLayout>
+    </Grid>
+            
+</ContentPage>
