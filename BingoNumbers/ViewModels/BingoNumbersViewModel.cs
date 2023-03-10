@@ -14,10 +14,9 @@ namespace BingoNumbers.ViewModels
         private readonly Random _random = new();
 
         //command interface declarations
-        public ICommand UpperBoundIncrCommand { private set; get; }
-        public ICommand UpperBoundDecrCommand { private set; get; }
-        public ICommand LowerBoundIncrCommand { private set; get; }
-        public ICommand LowerBoundDecrCommand { private set; get; }        
+        public ICommand ChangeUpperBoundCommand { private set; get; }
+
+  public ICommand ChangeLowerBoundCommand { private set; get; }
         public ICommand DrawNumberCommand { private set; get; }
         public ICommand ResetNumberListCommand { private set; get; }
 
@@ -167,13 +166,10 @@ namespace BingoNumbers.ViewModels
 
             ((Command)ResetNumberListCommand)?.ChangeCanExecute();
 
-            ((Command)UpperBoundIncrCommand)?.ChangeCanExecute();
+            ((Command)ChangeLowerBoundCommand)?.ChangeCanExecute();
 
-            ((Command)UpperBoundDecrCommand)?.ChangeCanExecute();
+            ((Command)ChangeUpperBoundCommand)?.ChangeCanExecute();
 
-            ((Command)LowerBoundIncrCommand)?.ChangeCanExecute();
-            
-            ((Command)LowerBoundDecrCommand)?.ChangeCanExecute();
 
 
         } //RefreshCanExecutes
@@ -212,46 +208,29 @@ namespace BingoNumbers.ViewModels
        {
             RestoreState();
 
-            DrawNumberCommand = new Command(DrawNumber, canExecute: () => { return _numberList.Count > 0; });
-            ResetNumberListCommand = new Command(ResetNumberList, canExecute: () => { return !NumberListFull; });
-            UpperBoundIncrCommand = new Command(
-                execute: () => 
-                { 
-                    UpperBound++;
+            DrawNumberCommand = new Command(execute: DrawNumber, canExecute: () => { return _numberList.Count > 0; });
+            ResetNumberListCommand = new Command(execute: ResetNumberList, canExecute: () => { return !NumberListFull; });
+            ChangeLowerBoundCommand = new Command<string>(
+                execute: (string sign) => 
+                {
+                    LowerBound += sign == "+" ? 1 : -1;
                     SaveState();
                 }, 
-                canExecute: () => 
-                { 
-                    return NumberListFull; 
+                canExecute: (string sign) => 
+                {
+                    return NumberListFull;
                 });
-            UpperBoundDecrCommand = new Command(
-                execute: () => 
-                { 
-                    UpperBound--;
+            ChangeUpperBoundCommand = new Command<string>(
+                execute: (string sign) =>
+                {
+                    UpperBound += sign == "+" ? 1 : -1;
                     SaveState();
-                }, canExecute: () => 
-                { 
-                    return NumberListFull; 
+                },
+                canExecute: (string sign) =>
+                {
+                    return NumberListFull;
                 });
-            LowerBoundIncrCommand = new Command(
-                execute: () => 
-                { 
-                    LowerBound++;
-                    SaveState();
-                }, 
-                canExecute: () => 
-                { 
-                    return NumberListFull; 
-                });
-            LowerBoundDecrCommand = new Command(execute: () => 
-            { 
-                LowerBound--;
-                SaveState();
-            }, 
-            canExecute: () => 
-            { 
-                return NumberListFull; 
-            });
+
 
         } //BingoNumbersViewModel
 

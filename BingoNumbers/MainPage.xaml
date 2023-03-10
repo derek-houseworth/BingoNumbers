@@ -84,14 +84,16 @@
             <Button Text="Reset"
                      Command="{Binding Path=ResetNumberListCommand}"
                      Style="{StaticResource buttonStyle}"
-                     MinimumWidthRequest="90"/>
+                     MinimumWidthRequest="90"
+                     SemanticProperties.Hint="Reset number list"/>
             <Frame HorizontalOptions="FillAndExpand" 
                         BackgroundColor="Transparent"
                         BorderColor="Transparent"/>
             <Button Text="Draw"
                     Command ="{Binding Path=DrawNumberCommand}"
                     Style="{StaticResource buttonStyle}"
-                    MinimumWidthRequest="250"/>
+                    MinimumWidthRequest="250"
+                    SemanticProperties.Hint="Draw next number from list"/>
         </HorizontalStackLayout>
 
 
@@ -101,7 +103,8 @@
                                HorizontalOptions="CenterAndExpand"
                                BackgroundColor="#484848">
             <Button Text="-"
-                        Command="{Binding Path=LowerBoundDecrCommand}"
+                        Command="{Binding Path=ChangeLowerBoundCommand}"
+                        CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
                         WidthRequest="35"
                         Style="{StaticResource buttonStyle}"/>
             <Entry Text="{Binding Path=LowerBound, Mode=TwoWay}"
@@ -111,7 +114,8 @@
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource entryStyle}"/>
             <Button Text="+"
-                        Command="{Binding Path=LowerBoundIncrCommand}"
+                        Command="{Binding Path=ChangeLowerBoundCommand}"
+                        CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
                         WidthRequest="35"
                         Style="{StaticResource buttonStyle}"/>
 
@@ -120,7 +124,8 @@
                         BorderColor="Transparent"/>
 
             <Button Text="-"
-                        Command="{Binding Path=UpperBoundDecrCommand}"
+                        Command="{Binding Path=ChangeUpperBoundCommand}"
+                        CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
                         WidthRequest="35"
                         Style="{StaticResource buttonStyle}"/>
             <Entry Text="{Binding Path=UpperBound, Mode=TwoWay}"
@@ -130,7 +135,8 @@
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource entryStyle}"/>
             <Button Text="+"
-                        Command="{Binding Path=UpperBoundIncrCommand}"
+                        Command="{Binding Path=ChangeUpperBoundCommand}"
+                        CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
                         WidthRequest="35"
                         Style="{StaticResource buttonStyle}"/>
         </HorizontalStackLayout>
