@@ -1,6 +1,4 @@
-﻿using BingoNumbers.ViewModels;
-
-namespace BingoNumbers;
+﻿namespace BingoNumbers;
 
 public partial class App : Application
 {

@@ -8,7 +8,7 @@
              BackgroundColor="#484848">
 
     <ContentPage.BindingContext>
-        <viewModels:BingoNumbersViewModel />
+        <viewModels:MainViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Resources>
@@ -22,19 +22,21 @@
             <Style x:Key="drawnNumberStyle" TargetType="Label">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="VerticalOptions" Value="Start" />
-                <Setter Property="TextColor" Value="Yellow" />
+                <Setter Property="TextColor" Value="White" />
                 <Setter Property="FontSize" Value="100.0" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="LineBreakMode" Value="NoWrap" />
+                <Setter Property="FontFamily" Value="AlgerianRegular" />
             </Style>
             <Style x:Key="numberHistoryStyle" TargetType="Label">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="VerticalOptions" Value="Start" />
-                <Setter Property="TextColor" Value="OldLace" />
+                <Setter Property="TextColor" Value="LightGoldenrodYellow" />
                 <Setter Property="FontSize" Value="35.0" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="LineBreakMode" Value="WordWrap" />
+                <Setter Property="FontFamily" Value="AlgerianRegular" />
             </Style>
             <Style x:Key="entryStyle" TargetType="Entry">
                 <Setter Property="TextColor" Value="White" />
@@ -103,42 +105,42 @@
                                HorizontalOptions="CenterAndExpand"
                                BackgroundColor="#484848">
             <Button Text="-"
-                        Command="{Binding Path=ChangeLowerBoundCommand}"
-                        CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
-                        WidthRequest="35"
-                        Style="{StaticResource buttonStyle}"/>
+                    Command="{Binding Path=ChangeLowerBoundCommand}"
+                    CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
+                    WidthRequest="35"
+                    Style="{StaticResource buttonStyle}"/>
             <Entry Text="{Binding Path=LowerBound, Mode=TwoWay}"
-                        Keyboard="Numeric"
-                        WidthRequest="65"
-                        IsEnabled="{Binding Path=NumberListFull}"
-                        HorizontalTextAlignment="Center"
-                        Style="{StaticResource entryStyle}"/>
+                   Keyboard="Numeric"
+                   WidthRequest="65"
+                   IsEnabled="{Binding Path=NumberListFull}"
+                   HorizontalTextAlignment="Center"
+                   Style="{StaticResource entryStyle}"/>
             <Button Text="+"
-                        Command="{Binding Path=ChangeLowerBoundCommand}"
-                        CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
-                        WidthRequest="35"
-                        Style="{StaticResource buttonStyle}"/>
+                    Command="{Binding Path=ChangeLowerBoundCommand}"
+                    CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
+                    WidthRequest="35"
+                    Style="{StaticResource buttonStyle}"/>
 
             <Frame HorizontalOptions="FillAndExpand" 
-                        BackgroundColor="Transparent"
-                        BorderColor="Transparent"/>
+                   BackgroundColor="Transparent"
+                   BorderColor="Transparent"/>
 
             <Button Text="-"
-                        Command="{Binding Path=ChangeUpperBoundCommand}"
-                        CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
-                        WidthRequest="35"
-                        Style="{StaticResource buttonStyle}"/>
+                    Command="{Binding Path=ChangeUpperBoundCommand}"
+                    CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
+                    WidthRequest="35"
+                    Style="{StaticResource buttonStyle}"/>
             <Entry Text="{Binding Path=UpperBound, Mode=TwoWay}"
-                        Keyboard="Numeric"
-                        WidthRequest="65"
-                        IsEnabled="{Binding Path=NumberListFull}"
-                        HorizontalTextAlignment="Center"
-                        Style="{StaticResource entryStyle}"/>
+                   Keyboard="Numeric"
+                   WidthRequest="65"
+                   IsEnabled="{Binding Path=NumberListFull}"
+                   HorizontalTextAlignment="Center"
+                   Style="{StaticResource entryStyle}"/>
             <Button Text="+"
-                        Command="{Binding Path=ChangeUpperBoundCommand}"
-                        CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
-                        WidthRequest="35"
-                        Style="{StaticResource buttonStyle}"/>
+                    Command="{Binding Path=ChangeUpperBoundCommand}"
+                    CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
+                    WidthRequest="35"
+                    Style="{StaticResource buttonStyle}"/>
         </HorizontalStackLayout>
     </Grid>
             

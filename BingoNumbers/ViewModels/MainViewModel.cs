@@ -15,11 +15,11 @@ namespace BingoNumbers.ViewModels
 
         //command interface declarations
         public ICommand ChangeUpperBoundCommand { private set; get; }
-
-  public ICommand ChangeLowerBoundCommand { private set; get; }
+        public ICommand ChangeLowerBoundCommand { private set; get; }
         public ICommand DrawNumberCommand { private set; get; }
         public ICommand ResetNumberListCommand { private set; get; }
 
+        
         private int _lowerBound;
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace BingoNumbers.ViewModels
         private double _progress;
 
         /// <summary>
-        /// Double in range if 0.0 - 1.0 representing draw progress with 0.0 as no numbers drawn 
+        /// Double in range if 0.0 - 1.0 representing draw progress with 0.0 inidicating no numbers drawn 
         /// and 1.0 representing all numbers drawn.
         /// </summary>
         public double Progress
