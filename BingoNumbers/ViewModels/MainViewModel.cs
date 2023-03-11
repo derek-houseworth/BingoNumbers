@@ -2,7 +2,7 @@
 
 namespace BingoNumbers.ViewModels
 {
-    public class BingoNumbersViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
         private const int UPPER_BOUND_DEFAULT_VALUE = 25;
         private const int LOWER_BOUND_DEFAULT_VALUE = 1;
@@ -63,7 +63,7 @@ namespace BingoNumbers.ViewModels
 
         /// <summary>
         /// Double in range if 0.0 - 1.0 representing draw progress with 0.0 inidicating no numbers drawn 
-        /// and 1.0 representing all numbers drawn.
+        /// and 1.0 indicating all numbers drawn.
         /// </summary>
         public double Progress
         {
@@ -170,8 +170,6 @@ namespace BingoNumbers.ViewModels
 
             ((Command)ChangeUpperBoundCommand)?.ChangeCanExecute();
 
-
-
         } //RefreshCanExecutes
 
 
@@ -204,7 +202,7 @@ namespace BingoNumbers.ViewModels
         /// Initializes new instance of BingoNumbersViewModel object, object properties and 
         /// command interfaces.
         /// </summary>
-        public BingoNumbersViewModel()
+        public MainViewModel()
        {
             RestoreState();
 
