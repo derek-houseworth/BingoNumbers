@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:BingoNumbers.ViewModels"
-             x:Class="BingoNumbers.MainPage"
+             x:Class="BingoNumbers.Views.MainPage"
              Title="Bingo Numbers"
              Padding="5"
              BackgroundColor="#484848">
@@ -22,7 +22,7 @@
             <Style x:Key="drawnNumberStyle" TargetType="Label">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="VerticalOptions" Value="Start" />
-                <Setter Property="TextColor" Value="White" />
+                <Setter Property="TextColor" Value="DarkOrange" />
                 <Setter Property="FontSize" Value="100.0" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />

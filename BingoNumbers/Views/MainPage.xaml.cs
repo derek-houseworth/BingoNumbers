@@ -1,6 +1,6 @@
 ﻿using BingoNumbers.ViewModels;
 
-namespace BingoNumbers;
+namespace BingoNumbers.Views;
 
 public partial class MainPage : ContentPage
 {
