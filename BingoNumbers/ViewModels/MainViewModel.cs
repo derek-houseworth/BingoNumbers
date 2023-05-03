@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Diagnostics;
+using System.Windows.Input;
 
 namespace BingoNumbers.ViewModels
 {
@@ -182,18 +183,19 @@ namespace BingoNumbers.ViewModels
 
             Preferences.Set(APP_SETTINGS_LBOUND_KEY, LowerBound);
             Preferences.Set(APP_SETTINGS_UBOUND_KEY, UpperBound);
+			Debug.WriteLine("*** view model state saved ***");
 
+		} //SaveState
 
-        } //SaveState
-
-        /// <summary>
-        /// Retrieves previously saved lower and upper bound values from host application's Preferences store 
-        /// and sets either retrieved or default values if not found to appropriate view model properties.
-        /// </summary>
-        public void RestoreState()
+		/// <summary>
+		/// Retrieves previously saved lower and upper bound values from host application's Preferences store 
+		/// and sets either retrieved or default values if not found to appropriate view model properties.
+		/// </summary>
+		public void RestoreState()
         {
             LowerBound = Preferences.Get(APP_SETTINGS_LBOUND_KEY, LOWER_BOUND_DEFAULT_VALUE);
             UpperBound = Preferences.Get(APP_SETTINGS_UBOUND_KEY, UPPER_BOUND_DEFAULT_VALUE);
+            Debug.WriteLine("*** view model state restored ***");
 
         }//RestoreState
 
@@ -204,7 +206,6 @@ namespace BingoNumbers.ViewModels
         /// </summary>
         public MainViewModel()
        {
-            RestoreState();
 
             DrawNumberCommand = new Command(execute: DrawNumber, canExecute: () => { return _numberList.Count > 0; });
             ResetNumberListCommand = new Command(execute: ResetNumberList, canExecute: () => { return !NumberListFull; });
@@ -212,7 +213,7 @@ namespace BingoNumbers.ViewModels
                 execute: (string sign) => 
                 {
                     LowerBound += sign == "+" ? 1 : -1;
-                    SaveState();
+                    //SaveState();
                 }, 
                 canExecute: (string sign) => 
                 {
@@ -222,7 +223,7 @@ namespace BingoNumbers.ViewModels
                 execute: (string sign) =>
                 {
                     UpperBound += sign == "+" ? 1 : -1;
-                    SaveState();
+                    //SaveState();
                 },
                 canExecute: (string sign) =>
                 {

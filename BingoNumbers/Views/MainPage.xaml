@@ -67,7 +67,7 @@
                 
             </ScrollView>
 
-            <!--grid row 1-->
+        <!--grid row 1-->
         <ProgressBar Grid.Row="1"
                         Grid.Column="0"
                         MinimumHeightRequest="28"

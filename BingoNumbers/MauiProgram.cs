@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BingoNumbers.ViewModels;
+using BingoNumbers.Views;
+using Microsoft.Extensions.Logging;
 
 namespace BingoNumbers;
 
@@ -19,6 +21,9 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
+		builder.Services.AddSingleton<MainPage>();
+		builder.Services.AddSingleton<MainViewModel>();
 
 		return builder.Build();
 	}

@@ -1,27 +1,21 @@
 ﻿namespace BingoNumbers;
 
+using BingoNumbers.Views;
+using BingoNumbers.ViewModels;
+
 public partial class App : Application
 {
-	public App()
+	public App(MainPage page)
 	{
+
 		InitializeComponent();
-
-		MainPage = new AppShell();
+		
     }
+	protected override Window CreateWindow(IActivationState activationState)
+	{
 
-    protected override void OnStart()
-    {
-        base.OnStart();
-    }
+		return new BNWindow(new MainPage(new MainViewModel()));
 
-    protected override void OnResume()
-    {
-        base.OnResume();
-    }
-
-    protected override void OnSleep()
-    {
-        base.OnSleep();
-    }
+	}
 
 }
