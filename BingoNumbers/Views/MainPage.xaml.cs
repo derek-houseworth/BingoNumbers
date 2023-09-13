@@ -1,13 +1,15 @@
 ﻿using BingoNumbers.ViewModels;
 
-namespace BingoNumbers.Views;
+namespace BingoNumbers.Views
+{ 
 
-public partial class MainPage : ContentPage
-{
-
-	public MainPage(MainViewModel viewModel)
+	public partial class MainPage : ContentPage
 	{
-		InitializeComponent();
-	}
-}
 
+		public MainPage(MainViewModel viewModel)
+		{
+			InitializeComponent();
+		}
+	}
+
+}

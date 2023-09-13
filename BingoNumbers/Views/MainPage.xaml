@@ -20,21 +20,18 @@
                 <Setter Property="BackgroundColor" Value="DarkOrange" />
             </Style>
             <Style x:Key="drawnNumberStyle" TargetType="Label">
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalOptions" Value="Start" />
                 <Setter Property="TextColor" Value="DarkOrange" />
                 <Setter Property="FontSize" Value="100.0" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="HorizontalTextAlignment" Value="Center" />
-                <Setter Property="LineBreakMode" Value="NoWrap" />
                 <Setter Property="FontFamily" Value="AlgerianRegular" />
             </Style>
             <Style x:Key="numberHistoryStyle" TargetType="Label">
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalOptions" Value="Start" />
                 <Setter Property="TextColor" Value="LightGoldenrodYellow" />
                 <Setter Property="FontSize" Value="35.0" />
-                <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="LineBreakMode" Value="WordWrap" />
                 <Setter Property="FontFamily" Value="AlgerianRegular" />
             </Style>
@@ -49,7 +46,7 @@
 
     <Grid x:Name="mainGrid" 
           RowDefinitions="*,auto,auto,auto"
-          ColumnDefinitions="auto"
+          ColumnDefinitions="*"
           RowSpacing="8"
           HorizontalOptions="CenterAndExpand" 
           VerticalOptions="FillAndExpand"
@@ -57,14 +54,14 @@
 
         <!--grid row 0-->
             <ScrollView Grid.Row="0"
-                        Grid.Column="0">
-            <VerticalStackLayout>
-                <Label Text="{Binding Path=DrawnNumber}"
-                       Style="{StaticResource drawnNumberStyle}"/>
-                <Label Text="{Binding Path=DrawnNumberHistory}" 
-                       Style="{StaticResource numberHistoryStyle}"/>
-            </VerticalStackLayout>
-                
+                        Grid.Column="0"
+                        HorizontalOptions="CenterAndExpand">
+                <VerticalStackLayout >
+                    <Label Text="{Binding Path=DrawnNumber}"
+                           Style="{StaticResource drawnNumberStyle}"/>
+                    <Label Text="{Binding Path=DrawnNumberHistory}" 
+                           Style="{StaticResource numberHistoryStyle}"/>
+                </VerticalStackLayout>
             </ScrollView>
 
         <!--grid row 1-->
@@ -82,7 +79,8 @@
 
         <!--grid row 2-->
         <HorizontalStackLayout Grid.Row="2"
-                               Grid.Column="0">
+                               Grid.Column="0"
+                               HorizontalOptions="CenterAndExpand">
             <Button Text="Reset"
                      Command="{Binding Path=ResetNumberListCommand}"
                      Style="{StaticResource buttonStyle}"

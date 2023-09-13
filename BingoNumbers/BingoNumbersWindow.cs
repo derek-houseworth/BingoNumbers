@@ -3,14 +3,14 @@ using BingoNumbers.Views;
 
 namespace BingoNumbers
 {
-	public class BNWindow : Window
+	public class BingoNumbersWindow : Window
 	{
 		private MainPage _mainPage;
-		public BNWindow() : base() 
+		public BingoNumbersWindow() : base() 
 		{		
 		}
 
-		public BNWindow(MainPage page) : base(page) 
+		public BingoNumbersWindow(MainPage page) : base(page) 
 		{
 			_mainPage = page;
 		}

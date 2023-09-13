@@ -14,7 +14,7 @@ public partial class App : Application
 	protected override Window CreateWindow(IActivationState activationState)
 	{
 
-		return new BNWindow(new MainPage(new MainViewModel()));
+		return new BingoNumbersWindow(new MainPage(new MainViewModel()));
 
 	}
 
