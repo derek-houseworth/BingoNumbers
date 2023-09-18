@@ -1,30 +1,29 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BingoNumbers.ViewModels
+namespace BingoNumbers.ViewModels;
+
+public class ViewModelBase : INotifyPropertyChanged
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        if (Object.Equals(storage, value))
         {
-            if (Object.Equals(storage, value))
-            {
-                return false;
-            }
-            storage = value;
-            OnPropertyChanged(propertyName);
-
-            return true;
+            return false;
         }
+        storage = value;
+        OnPropertyChanged(propertyName);
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        return true;
+    }
+
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChangedEventHandler handler = PropertyChanged;
+        if (handler != null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
