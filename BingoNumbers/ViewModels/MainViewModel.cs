@@ -24,13 +24,12 @@ public class MainViewModel : ViewModelBase
     public ICommand DrawNumberCommand { private set; get; }
     public ICommand ResetNumberListCommand { private set; get; }
 
-    
-    private int _lowerBound;
 
-    /// <summary>
-    /// Integer representing lower end of number range from which values will be inclusively drawn.
-    /// </summary>
-    public int LowerBound
+	/// <summary>
+	/// Integer representing lower end of number range from which values will be inclusively drawn.
+	/// </summary>
+	private int _lowerBound;
+	public int LowerBound
     {
         get => _lowerBound;
         set 
@@ -45,12 +44,11 @@ public class MainViewModel : ViewModelBase
     }
 
 
-    private int _upperBound;
-
-    /// <summary>
-    /// Integer representing upper end of number range from which values will be inclusively drawn.
-    /// </summary>
-    public int UpperBound
+	/// <summary>
+	/// Integer representing upper end of number range from which values will be inclusively drawn.
+	/// </summary>
+	private int _upperBound;
+	public int UpperBound
     {
         get => _upperBound;
         set
@@ -64,35 +62,35 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    private double _progress;
 
-    /// <summary>
-    /// Double in range if 0.0 - 1.0 representing draw progress with 0.0 inidicating no numbers drawn 
-    /// and 1.0 indicating all numbers drawn.
-    /// </summary>
-    public double Progress
+	/// <summary>
+	/// Double in range if 0.0 - 1.0 representing draw progress with 0.0 inidicating no numbers drawn 
+	/// and 1.0 indicating all numbers drawn.
+	/// </summary>
+	private double _progress;
+	public double Progress
     {
         get => _progress;
         private set => SetProperty(ref _progress, Math.Min(1.0, Math.Max(0, value)));
     }
 
 
-    private string _drawnNumber;
-
-    /// <summary>
-    /// String representing most recently drawn number.
-    /// </summary>
+	/// <summary>
+	/// String representing most recently drawn number.
+	/// </summary>
+	private string _drawnNumber;
     public string DrawnNumber
     {
         get => _drawnNumber;
         private  set => SetProperty(ref _drawnNumber, value);
     }
 
-    private string _drawnNumberHistory;
-    /// <summary>
-    /// Newline delimited string containing all previously drawn numbers, one per line.
-    /// </summary>
-    public string DrawnNumberHistory
+
+	/// <summary>
+	/// Newline delimited string containing all previously drawn numbers, one per line.
+	/// </summary>
+	private string _drawnNumberHistory;
+	public string DrawnNumberHistory
     {
         get => _drawnNumberHistory; 
         private set => SetProperty(ref _drawnNumberHistory, value);
@@ -195,6 +193,7 @@ public class MainViewModel : ViewModelBase
 
 	} //SaveState
 
+
 	/// <summary>
 	/// Initializes view model properties for lower bound, upper bound, drawn number history and most recently 
     /// drawn number with values from from host application's Preferences store and updates command state
@@ -226,15 +225,14 @@ public class MainViewModel : ViewModelBase
 
 		Debug.WriteLine("*** view model state restored ***");
 
-
 	}//RestoreState
 
 
     /// <summary>
-    /// Initializes new instance of BingoNumbersViewModel object, object properties and 
-    /// command interfaces.
+    /// Initializes new instance of view model object, object properties and 
+    /// command interfaces
     /// </summary>
-    public MainViewModel()
+   public MainViewModel()
    {
 
         DrawNumberCommand = new Command(execute: DrawNumber, canExecute: () => { return _numberList.Count > 0; });
@@ -261,7 +259,6 @@ public class MainViewModel : ViewModelBase
             });
 
 
-    } //BingoNumbersViewModel
+	} //MainViewModel
 
-} //BingoNumbersViewModel
-
+} //MainViewModel
