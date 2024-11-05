@@ -5,7 +5,7 @@ namespace BingoNumbers;
 
 public class BingoNumbersWindow : Window
 {
-	private readonly MainPage _mainPage;
+	private readonly MainPage? _mainPage;
 
 	/// <summary>
 	/// inherited window class to enable responses to app lifecycle events, e.g. 
@@ -26,8 +26,10 @@ public class BingoNumbersWindow : Window
 	/// </summary>
 	protected override void OnCreated()
 	{
-
-		((MainViewModel)_mainPage.BindingContext).RestoreState();
+		if (_mainPage is not null)
+		{
+			((MainViewModel)_mainPage.BindingContext).RestoreState();
+		}
 
 	} //OnCreated
 	
@@ -38,7 +40,10 @@ public class BingoNumbersWindow : Window
 	protected override void OnDeactivated()
 	{
 
-		((MainViewModel)_mainPage.BindingContext).SaveState();
+		if (_mainPage is not null)
+		{
+			((MainViewModel)_mainPage.BindingContext).SaveState();
+		}
 
 	} //OnDeactivated
 
@@ -48,9 +53,12 @@ public class BingoNumbersWindow : Window
 	/// </summary>
 	protected override void OnDestroying()
 	{
-
-		((MainViewModel)_mainPage.BindingContext).SaveState();
+		if (_mainPage is not null)
+		{
+			((MainViewModel)_mainPage.BindingContext).SaveState();
+		}
 
 	} //OnDestroying
+
 
 } //BingoNumbersWindow

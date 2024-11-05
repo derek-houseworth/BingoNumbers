@@ -28,7 +28,7 @@ public class MainViewModel : ViewModelBase
 	/// <summary>
 	/// Integer representing lower end of number range from which values will be inclusively drawn.
 	/// </summary>
-	private int _lowerBound;
+	private int _lowerBound = 1;
 	public int LowerBound
     {
         get => _lowerBound;
@@ -47,7 +47,7 @@ public class MainViewModel : ViewModelBase
 	/// <summary>
 	/// Integer representing upper end of number range from which values will be inclusively drawn.
 	/// </summary>
-	private int _upperBound;
+	private int _upperBound = 25;
 	public int UpperBound
     {
         get => _upperBound;
@@ -78,8 +78,8 @@ public class MainViewModel : ViewModelBase
 	/// <summary>
 	/// String representing most recently drawn number.
 	/// </summary>
-	private string _drawnNumber;
-    public string DrawnNumber
+	private string? _drawnNumber = "";
+    public string? DrawnNumber
     {
         get => _drawnNumber;
         private  set => SetProperty(ref _drawnNumber, value);
@@ -89,8 +89,8 @@ public class MainViewModel : ViewModelBase
 	/// <summary>
 	/// Newline delimited string containing all previously drawn numbers, one per line.
 	/// </summary>
-	private string _drawnNumberHistory;
-	public string DrawnNumberHistory
+	private string? _drawnNumberHistory = "";
+	public string? DrawnNumberHistory
     {
         get => _drawnNumberHistory; 
         private set => SetProperty(ref _drawnNumberHistory, value);
@@ -139,12 +139,12 @@ public class MainViewModel : ViewModelBase
        if (_numberList.Count > 0)
        {
             //add previously drawn number to history
-            DrawnNumberHistory = DrawnNumber + (DrawnNumberHistory.Length > 0 ? "\n" : "") + DrawnNumberHistory;
+            DrawnNumberHistory = DrawnNumber + (String.IsNullOrEmpty(DrawnNumberHistory) ? "" : Environment.NewLine) + DrawnNumberHistory;
 
 			//randomly select number from list
 			int newlyDrawnNumber = _numberList[_random.Next(_numberList.Count)];
 
-			//remove drawn number drom list
+			//remove drawn number from list
 			_numberList.Remove(newlyDrawnNumber);
 
             //add drawn number to history of drawn numbers
