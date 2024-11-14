@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace BingoNumbers.ViewModels;
 
-public class MainViewModel : ViewModelBase
+public partial class MainViewModel : ViewModelBase
 {
     private const int UPPER_BOUND_DEFAULT_VALUE = 25;
     private const int LOWER_BOUND_DEFAULT_VALUE = 1;
@@ -15,7 +15,7 @@ public class MainViewModel : ViewModelBase
 	const string APP_SETTINGS_DRAWN_NUMBER_KEY = "DrawnNumber";
 	const string APP_SETTINGS_DRAWN_NUMBER_HISTORY_KEY = "DrawnNumberHistory";
 
-	private List<int> _numberList = new();
+	private List<int> _numberList = [];
     private readonly Random _random = new();
 
     //command interface declarations

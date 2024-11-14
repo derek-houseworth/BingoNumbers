@@ -3,7 +3,7 @@ using BingoNumbers.Views;
 
 namespace BingoNumbers;
 
-public class BingoNumbersWindow : Window
+public partial class BingoNumbersWindow : Window
 {
 	private readonly MainPage? _mainPage;
 
