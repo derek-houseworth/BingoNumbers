@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:BingoNumbers.ViewModels"
              x:Class="BingoNumbers.Views.MainPage"
+             x:DataType="viewModels:MainViewModel"
              Title="Bingo Numbers"
              Padding="5"
              BackgroundColor="#484848">
@@ -18,6 +19,20 @@
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="FontSize" Value="Large" />
                 <Setter Property="BackgroundColor" Value="DarkOrange" />
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="DarkGray" />
+                                    <Setter Property="BackgroundColor" Value="Gray" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver" />
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
             </Style>
             <Style x:Key="drawnNumberStyle" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
@@ -40,6 +55,20 @@
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="FontSize" Value="Large" />
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="DarkGray" />
+                                    <Setter Property="BackgroundColor" Value="Grey" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver" />
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -86,9 +115,8 @@
                      Style="{StaticResource buttonStyle}"
                      MinimumWidthRequest="90"
                      SemanticProperties.Hint="Reset number list"/>
-            <Frame HorizontalOptions="FillAndExpand" 
-                        BackgroundColor="Transparent"
-                        BorderColor="Transparent"/>
+            <Border HorizontalOptions="FillAndExpand" 
+                        BackgroundColor="Transparent"/>
             <Button Text="Draw"
                     Command ="{Binding Path=DrawNumberCommand}"
                     Style="{StaticResource buttonStyle}"
@@ -104,41 +132,44 @@
                                BackgroundColor="#484848">
             <Button Text="-"
                     Command="{Binding Path=ChangeLowerBoundCommand}"
-                    CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
+                    CommandParameter="-"
                     WidthRequest="35"
-                    Style="{StaticResource buttonStyle}"/>
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding Path=NumberListFull}"/>
             <Entry Text="{Binding Path=LowerBound, Mode=TwoWay}"
                    Keyboard="Numeric"
                    WidthRequest="65"
-                   IsEnabled="{Binding Path=NumberListFull}"
                    HorizontalTextAlignment="Center"
-                   Style="{StaticResource entryStyle}"/>
+                   Style="{StaticResource entryStyle}"
+                   IsEnabled="{Binding Path=NumberListFull}"/>
             <Button Text="+"
                     Command="{Binding Path=ChangeLowerBoundCommand}"
-                    CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
+                    CommandParameter="+"
                     WidthRequest="35"
-                    Style="{StaticResource buttonStyle}"/>
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding Path=NumberListFull}"/>
 
-            <Frame HorizontalOptions="FillAndExpand" 
-                   BackgroundColor="Transparent"
-                   BorderColor="Transparent"/>
+            <Border HorizontalOptions="FillAndExpand" 
+                   BackgroundColor="Transparent"/>
 
-            <Button Text="-"
+                <Button Text="-"
                     Command="{Binding Path=ChangeUpperBoundCommand}"
-                    CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
+                    CommandParameter="-"
                     WidthRequest="35"
-                    Style="{StaticResource buttonStyle}"/>
-            <Entry Text="{Binding Path=UpperBound, Mode=TwoWay}"
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding Path=NumberListFull}"/>
+                <Entry Text="{Binding Path=UpperBound, Mode=TwoWay}"
                    Keyboard="Numeric"
                    WidthRequest="65"
-                   IsEnabled="{Binding Path=NumberListFull}"
                    HorizontalTextAlignment="Center"
-                   Style="{StaticResource entryStyle}"/>
-            <Button Text="+"
+                   Style="{StaticResource entryStyle}"
+                   IsEnabled="{Binding Path=NumberListFull}"/>
+                <Button Text="+"
                     Command="{Binding Path=ChangeUpperBoundCommand}"
-                    CommandParameter="{Binding Path=Text, Source={RelativeSource Self}}"
+                    CommandParameter="+"
                     WidthRequest="35"
-                    Style="{StaticResource buttonStyle}"/>
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding Path=NumberListFull}"/>
         </HorizontalStackLayout>
     </Grid>
             

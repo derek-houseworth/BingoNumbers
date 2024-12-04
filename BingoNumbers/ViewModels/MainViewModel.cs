@@ -235,8 +235,12 @@ public partial class MainViewModel : ViewModelBase
    public MainViewModel()
    {
 
-        DrawNumberCommand = new Command(execute: DrawNumber, canExecute: () => { return _numberList.Count > 0; });
-        ResetNumberListCommand = new Command(execute: ResetNumberList, canExecute: () => { return !NumberListFull; });
+        DrawNumberCommand = new Command(
+            execute: DrawNumber, 
+            canExecute: () => { return _numberList.Count > 0; });
+        ResetNumberListCommand = new Command(
+            execute: ResetNumberList, 
+            canExecute: () => { return !NumberListFull; });
         ChangeLowerBoundCommand = new Command<string>(
             execute: (string sign) => 
             {
