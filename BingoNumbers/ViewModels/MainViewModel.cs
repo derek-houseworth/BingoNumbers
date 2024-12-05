@@ -78,7 +78,7 @@ public partial class MainViewModel : ViewModelBase
 	/// <summary>
 	/// String representing most recently drawn number.
 	/// </summary>
-	private string? _drawnNumber = "";
+	private string? _drawnNumber = String.Empty;
     public string? DrawnNumber
     {
         get => _drawnNumber;

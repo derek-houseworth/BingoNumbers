@@ -29,7 +29,11 @@
                                     <Setter Property="BackgroundColor" Value="Gray" />
                                 </VisualState.Setters>
                             </VisualState>
-                            <VisualState x:Name="PointerOver" />
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="Orange" />
+                                </VisualState.Setters>
+                            </VisualState>
                         </VisualStateGroup>
                     </VisualStateGroupList>
                 </Setter>
@@ -62,7 +66,7 @@
                             <VisualState x:Name="Disabled">
                                 <VisualState.Setters>
                                     <Setter Property="TextColor" Value="DarkGray" />
-                                    <Setter Property="BackgroundColor" Value="Grey" />
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="PointerOver" />
@@ -75,102 +79,98 @@
 
     <Grid x:Name="mainGrid" 
           RowDefinitions="*,auto,auto,auto"
-          ColumnDefinitions="*"
-          RowSpacing="8"
-          HorizontalOptions="CenterAndExpand" 
-          VerticalOptions="FillAndExpand"
-          BackgroundColor="#484848">
+          ColumnDefinitions="*,*"
+          RowSpacing="10"
+          ColumnSpacing="10"
+          Padding="10">
 
         <!--grid row 0-->
-            <ScrollView Grid.Row="0"
-                        Grid.Column="0"
-                        HorizontalOptions="CenterAndExpand">
-                <VerticalStackLayout >
-                    <Label Text="{Binding Path=DrawnNumber}"
+        <ScrollView HorizontalOptions="CenterAndExpand" 
+                        Grid.ColumnSpan="2">
+            <VerticalStackLayout >
+                <Label Text="{Binding Path=DrawnNumber}"
                            Style="{StaticResource drawnNumberStyle}"/>
-                    <Label Text="{Binding Path=DrawnNumberHistory}" 
+                <Label Text="{Binding Path=DrawnNumberHistory}" 
                            Style="{StaticResource numberHistoryStyle}"/>
-                </VerticalStackLayout>
-            </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
 
         <!--grid row 1-->
         <ProgressBar Grid.Row="1"
-                        Grid.Column="0"
-                        MinimumHeightRequest="28"
-                        HeightRequest="28"
-                        Progress="{Binding Path=Progress}"
-                        IsVisible="true"
-                        VerticalOptions="Center" 
-                        BackgroundColor="#484848"
-                        HorizontalOptions="FillAndExpand"
-                        ProgressColor="LightGoldenrodYellow"/>
-
+                     Grid.ColumnSpan="2"
+                     MinimumHeightRequest="28"
+                     HeightRequest="28"
+                     Progress="{Binding Path=Progress}"
+                     IsVisible="true"
+                     VerticalOptions="Center" 
+                     BackgroundColor="Transparent"
+                     HorizontalOptions="FillAndExpand"
+                     ProgressColor="LightGoldenrodYellow"/>
 
         <!--grid row 2-->
-        <HorizontalStackLayout Grid.Row="2"
-                               Grid.Column="0"
-                               HorizontalOptions="CenterAndExpand">
-            <Button Text="Reset"
-                     Command="{Binding Path=ResetNumberListCommand}"
-                     Style="{StaticResource buttonStyle}"
-                     MinimumWidthRequest="90"
-                     SemanticProperties.Hint="Reset number list"/>
-            <Border HorizontalOptions="FillAndExpand" 
-                        BackgroundColor="Transparent"/>
-            <Button Text="Draw"
-                    Command ="{Binding Path=DrawNumberCommand}"
-                    Style="{StaticResource buttonStyle}"
-                    MinimumWidthRequest="250"
-                    SemanticProperties.Hint="Draw next number from list"/>
-        </HorizontalStackLayout>
-
+        <Button Text="Reset"
+                Command="{Binding Path=ResetNumberListCommand}"
+                Style="{StaticResource buttonStyle}"
+                WidthRequest="150"
+                SemanticProperties.Hint="Reset number list"
+                Grid.Row="2"
+                HorizontalOptions="End"/>
+        <Button Text="Draw"
+                Command ="{Binding Path=DrawNumberCommand}"
+                Style="{StaticResource buttonStyle}"
+                WidthRequest="150"
+                SemanticProperties.Hint="Draw next number from list"
+                Grid.Row="2"
+                Grid.Column="1"
+                HorizontalOptions="Start"/>
 
         <!--grid row 3-->
-        <HorizontalStackLayout Grid.Row="3"
-                               Grid.Column="0"
-                               HorizontalOptions="CenterAndExpand"
-                               BackgroundColor="#484848">
+        <HorizontalStackLayout
+            HorizontalOptions="End"
+            Grid.Row="3">
             <Button Text="-"
-                    Command="{Binding Path=ChangeLowerBoundCommand}"
-                    CommandParameter="-"
-                    WidthRequest="35"
-                    Style="{StaticResource buttonStyle}"
-                    IsEnabled="{Binding Path=NumberListFull}"/>
+                Command="{Binding Path=ChangeLowerBoundCommand}"
+                CommandParameter="-"
+                WidthRequest="35"
+                Style="{StaticResource buttonStyle}"
+                IsEnabled="{Binding Path=NumberListFull}"/>
             <Entry Text="{Binding Path=LowerBound, Mode=TwoWay}"
-                   Keyboard="Numeric"
-                   WidthRequest="65"
-                   HorizontalTextAlignment="Center"
-                   Style="{StaticResource entryStyle}"
-                   IsEnabled="{Binding Path=NumberListFull}"/>
+               Keyboard="Numeric"
+               WidthRequest="62"
+               HorizontalTextAlignment="Center"
+               Style="{StaticResource entryStyle}"
+               IsEnabled="{Binding Path=NumberListFull}"/>
             <Button Text="+"
-                    Command="{Binding Path=ChangeLowerBoundCommand}"
-                    CommandParameter="+"
-                    WidthRequest="35"
-                    Style="{StaticResource buttonStyle}"
-                    IsEnabled="{Binding Path=NumberListFull}"/>
-
-            <Border HorizontalOptions="FillAndExpand" 
-                   BackgroundColor="Transparent"/>
-
-                <Button Text="-"
-                    Command="{Binding Path=ChangeUpperBoundCommand}"
-                    CommandParameter="-"
-                    WidthRequest="35"
-                    Style="{StaticResource buttonStyle}"
-                    IsEnabled="{Binding Path=NumberListFull}"/>
-                <Entry Text="{Binding Path=UpperBound, Mode=TwoWay}"
-                   Keyboard="Numeric"
-                   WidthRequest="65"
-                   HorizontalTextAlignment="Center"
-                   Style="{StaticResource entryStyle}"
-                   IsEnabled="{Binding Path=NumberListFull}"/>
-                <Button Text="+"
-                    Command="{Binding Path=ChangeUpperBoundCommand}"
-                    CommandParameter="+"
-                    WidthRequest="35"
-                    Style="{StaticResource buttonStyle}"
-                    IsEnabled="{Binding Path=NumberListFull}"/>
+                Command="{Binding Path=ChangeLowerBoundCommand}"
+                CommandParameter="+"
+                WidthRequest="35"
+                Style="{StaticResource buttonStyle}"
+                IsEnabled="{Binding Path=NumberListFull}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout
+            HorizontalOptions="Start"
+            Grid.Row="3"
+            Grid.Column="1">
+            <Button Text="-"
+                Command="{Binding Path=ChangeUpperBoundCommand}"
+                CommandParameter="-"
+                WidthRequest="35"
+                Style="{StaticResource buttonStyle}"
+                IsEnabled="{Binding Path=NumberListFull}"/>
+        <Entry Text="{Binding 
+               Path=UpperBound, Mode=TwoWay}"
+               Keyboard="Numeric"
+               WidthRequest="62"
+               HorizontalTextAlignment="Center"
+               Style="{StaticResource entryStyle}"
+               IsEnabled="{Binding Path=NumberListFull}"/>
+        <Button Text="+"
+                Command="{Binding Path=ChangeUpperBoundCommand}"
+                CommandParameter="+"
+                WidthRequest="35"
+                Style="{StaticResource buttonStyle}"
+                IsEnabled="{Binding Path=NumberListFull}"/>
         </HorizontalStackLayout>
     </Grid>
-            
+
 </ContentPage>
