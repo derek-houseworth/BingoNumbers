@@ -10,25 +10,25 @@ public partial class MainViewModel : ViewModelBase
 	private const string DRAWN_NUMBER_DEFAULT_VALUE = "";
 	private const string DRAWN_NUMBER_HISTORY_DEFAULT_VALUE = "";
 
-	const string APP_SETTINGS_UBOUND_KEY = "UpperBound";
-    const string APP_SETTINGS_LBOUND_KEY = "LowerBound";
-	const string APP_SETTINGS_DRAWN_NUMBER_KEY = "DrawnNumber";
-	const string APP_SETTINGS_DRAWN_NUMBER_HISTORY_KEY = "DrawnNumberHistory";
+	private const string APP_SETTINGS_UBOUND_KEY = "UpperBound";
+	private const string APP_SETTINGS_LBOUND_KEY = "LowerBound";
+	private const string APP_SETTINGS_DRAWN_NUMBER_KEY = "DrawnNumber";
+	private const string APP_SETTINGS_DRAWN_NUMBER_HISTORY_KEY = "DrawnNumberHistory";
 
-	private List<int> _numberList = [];
+	private readonly List<int> _numberList = [];
     private readonly Random _random = new();
 
     //command interface declarations
-    public ICommand ChangeUpperBoundCommand { private set; get; }
-    public ICommand ChangeLowerBoundCommand { private set; get; }
-    public ICommand DrawNumberCommand { private set; get; }
-    public ICommand ResetNumberListCommand { private set; get; }
+    public ICommand ChangeUpperBound{ private set; get; }
+    public ICommand ChangeLowerBound { private set; get; }
+    public ICommand Draw{ private set; get; } 
+    public ICommand Reset { private set; get; }
 
 
 	/// <summary>
-	/// Integer representing lower end of number range from which values will be inclusively drawn.
+	/// Integer value representing lower end of number range from which values will be inclusively drawn
 	/// </summary>
-	private int _lowerBound = 1;
+	private int _lowerBound = LOWER_BOUND_DEFAULT_VALUE;
 	public int LowerBound
     {
         get => _lowerBound;
@@ -41,13 +41,14 @@ public partial class MainViewModel : ViewModelBase
                 ResetNumberList();
             }
         }
-    }
+
+	} //LowerBound
 
 
 	/// <summary>
-	/// Integer representing upper end of number range from which values will be inclusively drawn.
+	/// Integer value representing upper end of number range from which values will be inclusively drawn
 	/// </summary>
-	private int _upperBound = 25;
+	private int _upperBound = UPPER_BOUND_DEFAULT_VALUE;
 	public int UpperBound
     {
         get => _upperBound;
@@ -60,14 +61,14 @@ public partial class MainViewModel : ViewModelBase
                 ResetNumberList();
             }
         }
-    }
+	} //UpperBound
 
 
 	/// <summary>
 	/// Double in range if 0.0 - 1.0 representing draw progress with 0.0 inidicating no numbers drawn 
 	/// and 1.0 indicating all numbers drawn.
 	/// </summary>
-	private double _progress;
+	private double _progress = 0;
 	public double Progress
     {
         get => _progress;
@@ -78,42 +79,52 @@ public partial class MainViewModel : ViewModelBase
 	/// <summary>
 	/// String representing most recently drawn number.
 	/// </summary>
-	private string? _drawnNumber = String.Empty;
-    public string? DrawnNumber
+	private string _drawnNumber = String.Empty;
+    public string DrawnNumber
     {
         get => _drawnNumber;
         private  set => SetProperty(ref _drawnNumber, value);
     }
 
 
-	/// <summary>
-	/// Newline delimited string containing all previously drawn numbers, one per line.
-	/// </summary>
-	private string? _drawnNumberHistory = "";
-	public string? DrawnNumberHistory
+    /// <summary>
+    /// Newline delimited string containing all previously drawn numbers, one per line.
+    /// </summary>
+    private string _drawnNumberHistory = string.Empty;
+	public string DrawnNumberHistory
     {
         get => _drawnNumberHistory; 
         private set => SetProperty(ref _drawnNumberHistory, value);
     }
 
 
-    /// <summary>
-    /// Boolean indicates state of application where true means no numbers have been drawn 
-    /// and false means one or more numbers have been drawn.
-    /// </summary>
-    private bool _numberListFull;
-    public bool NumberListFull
+	private bool _canReset = false;
+    public bool CanReset
     {
-        get => _numberListFull; 
-        private set => SetProperty(ref _numberListFull, value);
+        get => _canReset;
+        private set => SetProperty(ref _canReset, value);
     }
-   
 
-    /// <summary>
-    /// Initializes number list, progress and application state variables to prepare for
-    /// new draw
-    /// </summary>
-    public void ResetNumberList()
+    private bool _canDrawNumber = true;
+    public bool CanDrawNumber 
+    {
+        get => _canDrawNumber;
+        private set => SetProperty(ref _canDrawNumber, value);
+    }
+
+	private bool _canChangeBounds = true;
+	public bool CanChangeBounds
+	{
+		get => _canChangeBounds;
+		private set => SetProperty(ref _canChangeBounds, value);
+	}
+
+
+	/// <summary>
+	/// Initializes number list, progress and application state variables to prepare for
+	/// new draw
+	/// </summary>
+	private void ResetNumberList()
     {
         _numberList.Clear();
         for (int i = _lowerBound; i <= _upperBound; i++)
@@ -123,20 +134,23 @@ public partial class MainViewModel : ViewModelBase
         Progress = 0.0;
         DrawnNumber = "";
         DrawnNumberHistory = "";
-        NumberListFull = true;
+        CanDrawNumber = true;
+        CanReset = false;
+        CanChangeBounds = true;
         RefreshCanExecutes();
 
-    } //ResetNumberList
+
+	} //ResetNumberList
 
 
-    /// <summary>
-    /// Updates drawn number history with most recent value, randomly choses new value from number list, 
-    /// updates draw progress and performs refresh state of command interfaces states
-    /// to reflect state of remaining number pool
-    /// </summary>
-    public void DrawNumber()
+	/// <summary>
+	/// Updates drawn number history with most recent value, randomly choses new value from number list, 
+	/// updates draw progress and performs refresh state of command interfaces states
+	/// to reflect state of remaining number pool
+	/// </summary>
+	private void DrawNumber()
     {
-       if (_numberList.Count > 0)
+       if (CanDrawNumber)
        {
             //add previously drawn number to history
             DrawnNumberHistory = DrawnNumber + (String.IsNullOrEmpty(DrawnNumberHistory) ? "" : Environment.NewLine) + DrawnNumberHistory;
@@ -150,8 +164,9 @@ public partial class MainViewModel : ViewModelBase
             //add drawn number to history of drawn numbers
             DrawnNumber = newlyDrawnNumber.ToString();
 
-			NumberListFull = false;
-
+            CanDrawNumber = _numberList.Count > 0;
+            CanReset = true;
+            CanChangeBounds = false;
 			RefreshCanExecutes();                
         }
 
@@ -166,13 +181,13 @@ public partial class MainViewModel : ViewModelBase
 		//update draw progress
 		Progress = (double)(UpperBound - LowerBound - _numberList.Count + 1) / (double)(UpperBound - LowerBound + 1);
 
-		((Command)DrawNumberCommand)?.ChangeCanExecute();
+		((Command)Draw)?.ChangeCanExecute();
 
-        ((Command)ResetNumberListCommand)?.ChangeCanExecute();
+        ((Command)Reset)?.ChangeCanExecute();
 
-        ((Command)ChangeLowerBoundCommand)?.ChangeCanExecute();
+        ((Command)ChangeLowerBound)?.ChangeCanExecute();
 
-        ((Command)ChangeUpperBoundCommand)?.ChangeCanExecute();
+        ((Command)ChangeUpperBound)?.ChangeCanExecute();
 
     } //RefreshCanExecutes
 
@@ -202,13 +217,12 @@ public partial class MainViewModel : ViewModelBase
     {
         LowerBound = Preferences.Get(APP_SETTINGS_LBOUND_KEY, LOWER_BOUND_DEFAULT_VALUE);
         UpperBound = Preferences.Get(APP_SETTINGS_UBOUND_KEY, UPPER_BOUND_DEFAULT_VALUE);
-        ResetNumberList();
+		ResetNumberList();
 		DrawnNumber = Preferences.Get(APP_SETTINGS_DRAWN_NUMBER_KEY, DRAWN_NUMBER_DEFAULT_VALUE);
 		DrawnNumberHistory = Preferences.Get(APP_SETTINGS_DRAWN_NUMBER_HISTORY_KEY, DRAWN_NUMBER_HISTORY_DEFAULT_VALUE);
         if (DrawnNumberHistory != DRAWN_NUMBER_HISTORY_DEFAULT_VALUE)
         {
             //parse saved number history string to enable removing corresponding values from number list
-			NumberListFull = false;
 			foreach (var drawnNumberHistoryItem in DrawnNumberHistory.Split('\n'))
 			{
 				_numberList.Remove(Convert.ToInt16(drawnNumberHistoryItem));
@@ -216,7 +230,6 @@ public partial class MainViewModel : ViewModelBase
 		}
 		if (DrawnNumber != DRAWN_NUMBER_DEFAULT_VALUE)
         {
-			NumberListFull = false;
 
 			//parse most recently drawn number string to enable removing corresponding value from number list
 			_numberList.Remove(Convert.ToInt16(DrawnNumber));
@@ -234,32 +247,28 @@ public partial class MainViewModel : ViewModelBase
     /// </summary>
    public MainViewModel()
    {
+		ResetNumberList();
 
-        DrawNumberCommand = new Command(
-            execute: DrawNumber, 
-            canExecute: () => { return _numberList.Count > 0; });
-        ResetNumberListCommand = new Command(
-            execute: ResetNumberList, 
-            canExecute: () => { return !NumberListFull; });
-        ChangeLowerBoundCommand = new Command<string>(
+		Draw = new Command(execute: () => DrawNumber(), canExecute: () => { return CanDrawNumber; });
+        Reset = new Command( execute: () => ResetNumberList(), canExecute: () => { return CanReset; });
+
+        ChangeLowerBound = new Command<string>(
             execute: (string sign) => 
             {
                 LowerBound += sign == "+" ? 1 : -1;
-                SaveState();
             }, 
             canExecute: (string sign) => 
             {
-                return NumberListFull;
+                return CanChangeBounds;
             });
-        ChangeUpperBoundCommand = new Command<string>(
-            execute: (string sign) =>
+		ChangeUpperBound = new Command<string>(
+			execute: (string sign) =>
             {
                 UpperBound += sign == "+" ? 1 : -1;
-                SaveState();
             },
-            canExecute: (string sign) =>
-            {
-                return NumberListFull;
+			canExecute: (string sign) =>
+			{
+                return CanChangeBounds;
             });
 
 

@@ -26,10 +26,12 @@ public partial class BingoNumbersWindow : Window
 	/// </summary>
 	protected override void OnCreated()
 	{
+		
 		if (_mainPage is not null)
 		{
 			((MainViewModel)_mainPage.BindingContext).RestoreState();
 		}
+		
 
 	} //OnCreated
 	
