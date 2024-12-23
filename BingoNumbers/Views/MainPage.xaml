@@ -14,24 +14,36 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+            <!--colors-->
+            <Color x:Key="NumberHistoryTextColor">LightGoldenrodYellow</Color>
+            <Color x:Key="DrawnNumberTextColor">DarkOrange</Color>
+            <Color x:Key="EnabledButtonTextColor">White</Color>
+            <Color x:Key="EnabledButtonBackgroundColor">DarkOrange</Color>
+            <Color x:Key="DisabledButtonBackgroundColor">Gray</Color>
+            <Color x:Key="DisabledTextColor">DarkGray</Color>
+            <Color x:Key="PointerOverButtonBackgroundColor">Orange</Color>
+            <Color x:Key="PointerOverButtonTextColor">LightGoldenrodYellow</Color>
+            
+            <!--styles-->
             <Style x:Key="buttonStyle" TargetType="Button">
                 <Setter Property="BorderWidth" Value="0" />
-                <Setter Property="TextColor" Value="White" />
+                <Setter Property="TextColor" Value="{StaticResource EnabledButtonTextColor}" />
                 <Setter Property="FontSize" Value="Large" />
-                <Setter Property="BackgroundColor" Value="DarkOrange" />
+                <Setter Property="BackgroundColor" Value="{StaticResource EnabledButtonBackgroundColor}" />
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal" />
                             <VisualState x:Name="Disabled">
                                 <VisualState.Setters>
-                                    <Setter Property="TextColor" Value="DarkGray" />
-                                    <Setter Property="BackgroundColor" Value="Gray" />
+                                    <Setter Property="TextColor" Value="{StaticResource DisabledTextColor}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource DisabledButtonBackgroundColor}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="PointerOver">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="Orange" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource PointerOverButtonBackgroundColor}" />
+                                    <Setter Property="TextColor" Value="{StaticResource PointerOverButtonTextColor}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -41,7 +53,7 @@
             <Style x:Key="drawnNumberStyle" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalOptions" Value="Start" />
-                <Setter Property="TextColor" Value="DarkOrange" />
+                <Setter Property="TextColor" Value="{StaticResource DrawnNumberTextColor}" />
                 <Setter Property="FontSize" Value="100.0" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="FontFamily" Value="AlgerianRegular" />
@@ -49,24 +61,26 @@
             <Style x:Key="numberHistoryStyle" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalOptions" Value="Start" />
-                <Setter Property="TextColor" Value="LightGoldenrodYellow" />
+                <Setter Property="TextColor" Value="{StaticResource NumberHistoryTextColor}" />
                 <Setter Property="FontSize" Value="35.0" />
                 <Setter Property="LineBreakMode" Value="WordWrap" />
                 <Setter Property="FontFamily" Value="AlgerianRegular" />
             </Style>
             <Style x:Key="entryStyle" TargetType="Entry">
                 <Setter Property="TextColor" Value="White" />
-                <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="FontSize" Value="Large" />
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="WidthRequest" Value="80"/>
+                <Setter Property="Keyboard" Value="Numeric"/>
+                <Setter Property="IsEnabled" Value="{Binding CanChangeBounds}"/>
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal" />
                             <VisualState x:Name="Disabled">
                                 <VisualState.Setters>
-                                    <Setter Property="TextColor" Value="DarkGray" />
-                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                    <Setter Property="TextColor" Value="{StaticResource DisabledTextColor}" />
+
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -100,7 +114,7 @@
                      MinimumHeightRequest="28"
                      HeightRequest="28"
                      Progress="{Binding Progress}"
-                     IsVisible="true"
+                     IsVisible="{Binding CanReset}"
                      VerticalOptions="Center" 
                      BackgroundColor="Transparent"
                      HorizontalOptions="FillAndExpand"
@@ -110,7 +124,7 @@
         <Button Text="Reset"
                 Command="{Binding Reset}"
                 Style="{StaticResource buttonStyle}"
-                WidthRequest="150"
+                WidthRequest="168"
                 SemanticProperties.Hint="Reset number list"
                 Grid.Row="2"
                 HorizontalOptions="End"
@@ -118,7 +132,7 @@
         <Button Text="Draw"
                 Command ="{Binding Draw}"
                 Style="{StaticResource buttonStyle}"
-                WidthRequest="150"
+                WidthRequest="168"
                 SemanticProperties.Hint="Draw next number from list"
                 Grid.Row="2"
                 Grid.Column="1"
@@ -135,9 +149,6 @@
                 Style="{StaticResource buttonStyle}"
                 IsEnabled="{Binding CanChangeBounds}"/>
             <Entry Text="{Binding LowerBound, Mode=TwoWay}"
-               Keyboard="Numeric"
-               WidthRequest="64"
-               HorizontalTextAlignment="Center"
                Style="{StaticResource entryStyle}"
                IsEnabled="{Binding Path=CanChangeBounds}"/>
             <Button Text="+"
@@ -150,8 +161,7 @@
         <HorizontalStackLayout
             HorizontalOptions="Start"
             Grid.Row="3"
-            Grid.Column="1"
-            x:DataType="{x:Null}">
+            Grid.Column="1">
             <Button Text="-"
                 Command="{Binding ChangeUpperBound}"
                 CommandParameter="-"
@@ -159,11 +169,7 @@
                 Style="{StaticResource buttonStyle}"
                 IsEnabled="{Binding CanChangeBounds}"/>
         <Entry Text="{Binding UpperBound, Mode=TwoWay}"
-               Keyboard="Numeric"
-               WidthRequest="64"
-               HorizontalTextAlignment="Center"
-               Style="{StaticResource entryStyle}"
-               IsEnabled="{Binding CanChangeBounds}"/>
+               Style="{StaticResource entryStyle}"/>
         <Button 
                 Text="+"
                 Command="{Binding ChangeUpperBound}"

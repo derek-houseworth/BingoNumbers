@@ -233,7 +233,10 @@ public partial class MainViewModel : ViewModelBase
 
 			//parse most recently drawn number string to enable removing corresponding value from number list
 			_numberList.Remove(Convert.ToInt16(DrawnNumber));
+            CanReset = true;
+            CanChangeBounds = false;
 		}
+
 		RefreshCanExecutes();
 
 		Debug.WriteLine("*** view model state restored ***");
