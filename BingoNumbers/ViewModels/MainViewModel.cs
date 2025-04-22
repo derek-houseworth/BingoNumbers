@@ -131,12 +131,12 @@ public partial class MainViewModel : ViewModelBase
         {
             _numberList.Add(i);
         }
-        Progress = 0.0;
-        DrawnNumber = "";
-        DrawnNumberHistory = "";
+        DrawnNumber = string.Empty;
+        DrawnNumberHistory = string.Empty;
         CanDrawNumber = true;
         CanReset = false;
         CanChangeBounds = true;
+        Progress = 0.0;
         RefreshCanExecutes();
 
 

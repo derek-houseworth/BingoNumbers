@@ -6,7 +6,7 @@
              x:DataType="viewModels:MainViewModel"
              Title="Bingo Numbers"
              Padding="5"
-             BackgroundColor="#484848">
+             BackgroundColor="#404040">
 
     <ContentPage.BindingContext>
         <viewModels:MainViewModel/>
@@ -98,7 +98,7 @@
           Padding="10">
 
         <!--grid row 0-->
-        <ScrollView HorizontalOptions="CenterAndExpand" 
+        <ScrollView HorizontalOptions="Center" 
                         Grid.ColumnSpan="2">
             <VerticalStackLayout >
                 <Label Text="{Binding DrawnNumber}"
