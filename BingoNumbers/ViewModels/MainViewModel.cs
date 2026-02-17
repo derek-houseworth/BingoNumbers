@@ -237,7 +237,9 @@ public partial class MainViewModel : ViewModelBase
             CanChangeBounds = false;
 		}
 
-		RefreshCanExecutes();
+        CanDrawNumber = _numberList.Count > 0;
+
+        RefreshCanExecutes();
 
 		Debug.WriteLine("*** view model state restored ***");
 
