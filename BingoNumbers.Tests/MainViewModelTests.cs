@@ -1,11 +1,20 @@
 ﻿using BingoNumbers.ViewModels;
+
 using System.Reflection;
 
 namespace BingoNumbers.Tests;
 
-public class MainViewModelTests
+
+[TestFixture]
+internal class MainViewModelTests
 {
-	[SetUp]
+
+    private const string PREFERENCES_UBOUND_KEY = "UpperBound";
+    private const string PREFERENCES_LBOUND_KEY = "LowerBound";
+    private const string PREFERENCES_DRAWN_NUMBER_KEY = "DrawnNumber";
+    private const string PREFERENCES_DRAWN_NUMBER_HISTORY_KEY = "DrawnNumberHistory";
+
+    [SetUp]
 	public void Setup()
 	{
 	}
@@ -16,7 +25,7 @@ public class MainViewModelTests
 	{
 		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
 
-		var viewModel = new MainViewModel();
+		var viewModel = new MainViewModel(new MockPreferencesService());
         using (Assert.EnterMultipleScope())
         {
 			Assert.That(viewModel, Is.Not.Null);
@@ -36,7 +45,7 @@ public class MainViewModelTests
 			Assert.That(viewModel.ChangeUpperBound.CanExecute(null), Is.True);
 
 			//progress
-			Assert.That(viewModel.Progress, Is.EqualTo(0.0d));
+			Assert.That(viewModel.Progress, Is.Zero);
 		}
 
 	} //TestViewModelInitialState
@@ -47,7 +56,7 @@ public class MainViewModelTests
 	{
 		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
 
-		var viewModel = new MainViewModel();
+        var viewModel = new MainViewModel(new MockPreferencesService());
         using (Assert.EnterMultipleScope())
         {
 			Assert.That(viewModel, Is.Not.Null);
@@ -66,7 +75,7 @@ public class MainViewModelTests
 	{
 		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
 
-		var viewModel = new MainViewModel();
+        var viewModel = new MainViewModel(new MockPreferencesService());
         using (Assert.EnterMultipleScope())
         {
 			Assert.That(viewModel, Is.Not.Null);
@@ -85,11 +94,14 @@ public class MainViewModelTests
 	{
 		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
 
-		var viewModel = new MainViewModel();
-		Assert.That(viewModel, Is.Not.Null);
-		
-		viewModel.LowerBound = viewModel.UpperBound;
-		Assert.That(viewModel.UpperBound, Is.EqualTo(viewModel.LowerBound+1));
+        var viewModel = new MainViewModel(new MockPreferencesService());
+		using (Assert.EnterMultipleScope())
+		{
+			Assert.That(viewModel, Is.Not.Null);
+
+			viewModel.LowerBound = viewModel.UpperBound;
+			Assert.That(viewModel.UpperBound, Is.EqualTo(viewModel.LowerBound + 1));
+		}
 
 	} //TestUpperBoundAutoIncrement
 
@@ -99,8 +111,8 @@ public class MainViewModelTests
 	{
 		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
 
-		var viewModel = new MainViewModel();
-		Assert.That(viewModel, Is.Not.Null);
+        var viewModel = new MainViewModel(new MockPreferencesService());
+        Assert.That(viewModel, Is.Not.Null);
 
 		viewModel.UpperBound = viewModel.LowerBound;
 		Assert.That(viewModel.LowerBound, Is.EqualTo(viewModel.UpperBound - 1));
@@ -113,7 +125,7 @@ public class MainViewModelTests
 	{
 		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
 
-		var viewModel = new MainViewModel();
+        var viewModel = new MainViewModel(new MockPreferencesService());
         using (Assert.EnterMultipleScope())
         {
 			Assert.That(viewModel, Is.Not.Null);
@@ -146,7 +158,8 @@ public class MainViewModelTests
 	{
 		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
 
-		var viewModel = new MainViewModel();
+        var viewModel = new MainViewModel(new MockPreferencesService());
+
         using (Assert.EnterMultipleScope())
         {
 			Assert.That(viewModel, Is.Not.Null);
@@ -170,9 +183,9 @@ public class MainViewModelTests
 	[Test]
 	public void TestDrawAllNumbers()
 	{
-		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");		
+		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
 
-		var viewModel = new MainViewModel();
+        var viewModel = new MainViewModel(new MockPreferencesService());
 
         using (Assert.EnterMultipleScope())
         {
@@ -189,6 +202,82 @@ public class MainViewModelTests
 		}
 
 	} //TestDrawAllNumbers
+
+	[Test]
+	public void TestRestoreState()
+	{
+        TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+        var mockPrefsService = new MockPreferencesService();
+
+		int lowerBound = 1;
+        int upperBound = 10;
+        string drawnNumber = "5";
+        string drawnNumberHistory = "9\r\n3";
+        mockPrefsService.Set(PREFERENCES_UBOUND_KEY, upperBound);
+        mockPrefsService.Set(PREFERENCES_LBOUND_KEY, lowerBound);
+        mockPrefsService.Set(PREFERENCES_DRAWN_NUMBER_KEY, drawnNumber);
+        mockPrefsService.Set(PREFERENCES_DRAWN_NUMBER_HISTORY_KEY, drawnNumberHistory);
+
+        var viewModel = new MainViewModel(mockPrefsService);
+		using (Assert.EnterMultipleScope())
+		{
+			Assert.That(viewModel, Is.Not.Null);
+			viewModel.RestoreState();
+            Assert.That(viewModel.LowerBound, Is.EqualTo(lowerBound));
+			Assert.That(viewModel.UpperBound, Is.EqualTo(upperBound));
+			Assert.That(viewModel.DrawnNumber, Is.EqualTo(drawnNumber));
+            Assert.That(viewModel.DrawnNumberHistory, Is.EqualTo(drawnNumberHistory));
+        }
+
+    } //TestRestoreState
+
+
+    [Test]
+	public void TestSaveState()
+	{
+        TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+
+		var mockPrefsService = new MockPreferencesService();
+
+        Random random = new(Seed: DateTime.Now.Microsecond);
+
+		int lowerBound = random.Next(-100, 100);
+		int upperBound = random.Next(lowerBound+1, 101);
+        var viewModel = new MainViewModel(mockPrefsService)
+		{
+			LowerBound = lowerBound,
+			UpperBound = upperBound
+        };
+
+		using (Assert.EnterMultipleScope())
+		{
+			Assert.That(viewModel, Is.Not.Null);
+
+            //draw 2 numbers & save state
+            viewModel.Draw.Execute(null);
+            viewModel.Draw.Execute(null);
+            viewModel.SaveState();
+
+            //verify expected values were saved to preferences
+
+			//lower bound
+            Assert.That(mockPrefsService.ContainsKey(PREFERENCES_LBOUND_KEY), Is.True);
+            Assert.That(mockPrefsService.Get(PREFERENCES_LBOUND_KEY, 0), Is.EqualTo(lowerBound));
+
+			//upper bound
+            Assert.That(mockPrefsService.ContainsKey(PREFERENCES_UBOUND_KEY), Is.True);
+            Assert.That(mockPrefsService.Get(PREFERENCES_UBOUND_KEY, 0), Is.EqualTo(upperBound));
+
+			//drawn number
+            Assert.That(mockPrefsService.ContainsKey(PREFERENCES_DRAWN_NUMBER_KEY), Is.True);
+            Assert.That(mockPrefsService.Get(PREFERENCES_DRAWN_NUMBER_KEY, string.Empty), Is.EqualTo(viewModel.DrawnNumber));
+
+            //drawn number history
+            Assert.That(mockPrefsService.ContainsKey(PREFERENCES_DRAWN_NUMBER_HISTORY_KEY), Is.True);
+            Assert.That(mockPrefsService.Get(PREFERENCES_DRAWN_NUMBER_HISTORY_KEY, string.Empty), Is.EqualTo(viewModel.DrawnNumberHistory));
+        }
+
+    } //TestSaveState
 
 
 } //MainViewModelTests

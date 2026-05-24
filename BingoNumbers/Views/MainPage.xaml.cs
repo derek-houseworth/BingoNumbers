@@ -1,4 +1,5 @@
-﻿using BingoNumbers.ViewModels;
+﻿using BingoNumbers.Services;
+using BingoNumbers.ViewModels;
 
 namespace BingoNumbers.Views;
  
@@ -6,10 +7,11 @@ namespace BingoNumbers.Views;
 public partial class MainPage : ContentPage
 {
 
-	public MainPage(MainViewModel viewModel)
+	public MainPage()
 	{
-		InitializeComponent();
 
-		BindingContext = viewModel;
-	}
+        InitializeComponent();
+
+		BindingContext = new MainViewModel(new PreferencesService());
+    }
 }

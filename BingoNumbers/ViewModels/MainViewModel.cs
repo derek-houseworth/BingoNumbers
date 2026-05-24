@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using BingoNumbers.Services;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace BingoNumbers.ViewModels;
@@ -199,10 +200,10 @@ public partial class MainViewModel : ViewModelBase
     public void SaveState()
     {
 
-        Preferences.Set(APP_SETTINGS_LBOUND_KEY, LowerBound);
-        Preferences.Set(APP_SETTINGS_UBOUND_KEY, UpperBound);
-		Preferences.Set(APP_SETTINGS_DRAWN_NUMBER_KEY, DrawnNumber);
-		Preferences.Set(APP_SETTINGS_DRAWN_NUMBER_HISTORY_KEY, DrawnNumberHistory);
+        _prefsService.Set(APP_SETTINGS_LBOUND_KEY, LowerBound);
+        _prefsService.Set(APP_SETTINGS_UBOUND_KEY, UpperBound);
+        _prefsService.Set(APP_SETTINGS_DRAWN_NUMBER_KEY, DrawnNumber);
+        _prefsService.Set(APP_SETTINGS_DRAWN_NUMBER_HISTORY_KEY, DrawnNumberHistory);
 
 		Debug.WriteLine("*** view model state saved ***");
 
@@ -215,11 +216,11 @@ public partial class MainViewModel : ViewModelBase
     /// /// </summary>
 	public void RestoreState()
     {
-        LowerBound = Preferences.Get(APP_SETTINGS_LBOUND_KEY, LOWER_BOUND_DEFAULT_VALUE);
-        UpperBound = Preferences.Get(APP_SETTINGS_UBOUND_KEY, UPPER_BOUND_DEFAULT_VALUE);
+        LowerBound = _prefsService.Get(APP_SETTINGS_LBOUND_KEY, LOWER_BOUND_DEFAULT_VALUE);
+        UpperBound = _prefsService.Get(APP_SETTINGS_UBOUND_KEY, UPPER_BOUND_DEFAULT_VALUE);
 		ResetNumberList();
-		DrawnNumber = Preferences.Get(APP_SETTINGS_DRAWN_NUMBER_KEY, DRAWN_NUMBER_DEFAULT_VALUE);
-		DrawnNumberHistory = Preferences.Get(APP_SETTINGS_DRAWN_NUMBER_HISTORY_KEY, DRAWN_NUMBER_HISTORY_DEFAULT_VALUE);
+		DrawnNumber = _prefsService.Get(APP_SETTINGS_DRAWN_NUMBER_KEY, DRAWN_NUMBER_DEFAULT_VALUE);
+		DrawnNumberHistory = _prefsService.Get(APP_SETTINGS_DRAWN_NUMBER_HISTORY_KEY, DRAWN_NUMBER_HISTORY_DEFAULT_VALUE);
         if (DrawnNumberHistory != DRAWN_NUMBER_HISTORY_DEFAULT_VALUE)
         {
             //parse saved number history string to enable removing corresponding values from number list
@@ -246,13 +247,17 @@ public partial class MainViewModel : ViewModelBase
 	}//RestoreState
 
 
+    private readonly IPreferencesService _prefsService;
+
     /// <summary>
     /// Initializes new instance of view model object, object properties and 
     /// command interfaces
     /// </summary>
-   public MainViewModel()
+    public MainViewModel(IPreferencesService prefsService)
    {
-		ResetNumberList();
+        _prefsService = prefsService;
+
+        ResetNumberList();
 
 		Draw = new Command(execute: () => DrawNumber(), canExecute: () => { return CanDrawNumber; });
         Reset = new Command( execute: () => ResetNumberList(), canExecute: () => { return CanReset; });

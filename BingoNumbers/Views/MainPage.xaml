@@ -8,9 +8,9 @@
              Padding="5"
              BackgroundColor="#404040">
 
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <viewModels:MainViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
 
     <ContentPage.Resources>
         <ResourceDictionary>
