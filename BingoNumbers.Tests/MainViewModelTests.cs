@@ -23,7 +23,7 @@ internal class MainViewModelTests
 	[Test]
 	public void TestInitialState()
 	{
-		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
 
 		var viewModel = new MainViewModel(new MockPreferencesService());
         using (Assert.EnterMultipleScope())
@@ -54,7 +54,7 @@ internal class MainViewModelTests
 	[Test]
 	public void TestChangeLowerBound()
 	{
-		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
 
         var viewModel = new MainViewModel(new MockPreferencesService());
         using (Assert.EnterMultipleScope())
@@ -73,7 +73,7 @@ internal class MainViewModelTests
 	[Test]
 	public void TestChangeUpperBound()
 	{
-		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
 
         var viewModel = new MainViewModel(new MockPreferencesService());
         using (Assert.EnterMultipleScope())
@@ -92,7 +92,7 @@ internal class MainViewModelTests
 	[Test]
 	public void TestUpperBoundAutoIncrement()
 	{
-		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
 
         var viewModel = new MainViewModel(new MockPreferencesService());
 		using (Assert.EnterMultipleScope())
@@ -109,7 +109,7 @@ internal class MainViewModelTests
 	[Test]
 	public void TestLowerBoundAutoDecrement()
 	{
-		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
 
         var viewModel = new MainViewModel(new MockPreferencesService());
         Assert.That(viewModel, Is.Not.Null);
@@ -123,7 +123,7 @@ internal class MainViewModelTests
 	[Test]
 	public void TestDrawSingleNumber()
 	{
-		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
 
         var viewModel = new MainViewModel(new MockPreferencesService());
         using (Assert.EnterMultipleScope())
@@ -156,7 +156,7 @@ internal class MainViewModelTests
 	[Test]
 	public void TestDrawTwoNumbers()
 	{
-		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
 
         var viewModel = new MainViewModel(new MockPreferencesService());
 
@@ -183,7 +183,7 @@ internal class MainViewModelTests
 	[Test]
 	public void TestDrawAllNumbers()
 	{
-		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
 
         var viewModel = new MainViewModel(new MockPreferencesService());
 
@@ -206,7 +206,7 @@ internal class MainViewModelTests
 	[Test]
 	public void TestRestoreState()
 	{
-        TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+        TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
         var mockPrefsService = new MockPreferencesService();
 
 		int lowerBound = 1;
@@ -235,7 +235,7 @@ internal class MainViewModelTests
     [Test]
 	public void TestSaveState()
 	{
-        TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()}:");
+        TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
 
 		var mockPrefsService = new MockPreferencesService();
 
