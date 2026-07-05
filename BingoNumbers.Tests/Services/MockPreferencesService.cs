@@ -1,6 +1,6 @@
 ﻿using BingoNumbers.Services;
 
-namespace BingoNumbers.Tests;
+namespace BingoNumbers.Tests.Services;
 
 public  class MockPreferencesService : IPreferencesService
 {

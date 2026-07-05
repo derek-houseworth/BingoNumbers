@@ -1,9 +1,9 @@
-﻿using BingoNumbers.ViewModels;
+﻿using System.Reflection;
+using BingoNumbers.ViewModels;
+using BingoNumbers.Tests.Services;
 
-using System.Reflection;
 
 namespace BingoNumbers.Tests;
-
 
 [TestFixture]
 internal class MainViewModelTests
@@ -17,10 +17,10 @@ internal class MainViewModelTests
     [SetUp]
 	public void Setup()
 	{
-	}
+    } //Setup
 
 
-	[Test]
+    [Test]
 	public void TestInitialState()
 	{
 		TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
@@ -203,12 +203,14 @@ internal class MainViewModelTests
 
 	} //TestDrawAllNumbers
 
+
 	[Test]
 	public void TestRestoreState()
 	{
         TestHelper.DebugWriteLine($"{GetType().Name}.{MethodBase.GetCurrentMethod()?.Name}:");
-        var mockPrefsService = new MockPreferencesService();
 
+        //store test values in mock preferences service
+        var mockPrefsService = new MockPreferencesService();
 		int lowerBound = 1;
         int upperBound = 10;
         string drawnNumber = "5";
@@ -223,6 +225,8 @@ internal class MainViewModelTests
 		{
 			Assert.That(viewModel, Is.Not.Null);
 			viewModel.RestoreState();
+
+            //verify expected values were restored from preferences
             Assert.That(viewModel.LowerBound, Is.EqualTo(lowerBound));
 			Assert.That(viewModel.UpperBound, Is.EqualTo(upperBound));
 			Assert.That(viewModel.DrawnNumber, Is.EqualTo(drawnNumber));
