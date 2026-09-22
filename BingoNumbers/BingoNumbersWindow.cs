@@ -29,7 +29,7 @@ public partial class BingoNumbersWindow : Window
 		
 		if (_mainPage is not null)
 		{
-			((MainViewModel)_mainPage.BindingContext).RestoreState();
+			//((MainViewModel)_mainPage.BindingContext).RestoreState();
 		}
 		
 

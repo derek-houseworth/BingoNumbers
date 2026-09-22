@@ -29,36 +29,33 @@ public partial class MainViewModel : ViewModelBase
 	/// <summary>
 	/// Integer value representing lower end of number range from which values will be inclusively drawn
 	/// </summary>
-	private int _lowerBound = LOWER_BOUND_DEFAULT_VALUE;
-	public int LowerBound
-    {
-        get => _lowerBound;
+    public int LowerBound 
+    { 
+        get;
         set 
         {
-            if (_lowerBound != value)
+            if (field != value)
             {
-                SetProperty(ref _lowerBound, value);
+                SetProperty(ref field, value);
                 if (UpperBound <= LowerBound) UpperBound = LowerBound + 1;
                 ResetNumberList();
             }
         }
+    } //LowerBound
 
-	} //LowerBound
 
-
-	/// <summary>
-	/// Integer value representing upper end of number range from which values will be inclusively drawn
-	/// </summary>
-	private int _upperBound = UPPER_BOUND_DEFAULT_VALUE;
+    /// <summary>
+    /// Integer value representing upper end of number range from which values will be inclusively drawn
+    /// </summary>
 	public int UpperBound
     {
-        get => _upperBound;
+        get;
         set
         {
-            if (_upperBound != value)
+            if (field != value)
             {
-                SetProperty(ref _upperBound, value);
-                if (LowerBound >= _upperBound) LowerBound = UpperBound-1;
+                SetProperty(ref field, value);
+                if (LowerBound >= UpperBound) LowerBound = UpperBound-1;
                 ResetNumberList();
             }
         }
@@ -69,66 +66,97 @@ public partial class MainViewModel : ViewModelBase
 	/// Double in range if 0.0 - 1.0 representing draw progress with 0.0 inidicating no numbers drawn 
 	/// and 1.0 indicating all numbers drawn.
 	/// </summary>
-	private double _progress = 0;
 	public double Progress
     {
-        get => _progress;
-        private set => SetProperty(ref _progress, Math.Min(1.0, Math.Max(0, value)));
-    }
+        get;
+        private set
+        {
+            if (field != value)
+            {
+                SetProperty(ref field, Math.Min(1.0, Math.Max(0, value)));
+            }
+        }
+    } //Progress
 
 
-	/// <summary>
-	/// String representing most recently drawn number.
-	/// </summary>
-	private string _drawnNumber = String.Empty;
+    /// <summary>
+    /// String representing most recently drawn number.
+    /// </summary>
     public string DrawnNumber
     {
-        get => _drawnNumber;
-        private  set => SetProperty(ref _drawnNumber, value);
-    }
+        get;
+        private set
+        {
+            if (field != value)
+            {
+                SetProperty(ref field, value);
+            }
+        }
+    }  //DrawnNumber
 
 
     /// <summary>
     /// Newline delimited string containing all previously drawn numbers, one per line.
     /// </summary>
-    private string _drawnNumberHistory = string.Empty;
-	public string DrawnNumberHistory
+    public string DrawnNumberHistory
     {
-        get => _drawnNumberHistory; 
-        private set => SetProperty(ref _drawnNumberHistory, value);
-    }
+        get;
+        private set
+        {
+            if (field != value)
+            {
+                SetProperty(ref field, value);
+            }
+        }
+    }  //DrawnNumberHistory
 
 
-	private bool _canReset = false;
     public bool CanReset
     {
-        get => _canReset;
-        private set => SetProperty(ref _canReset, value);
-    }
+        get;
+        private set
+        {
+            if (field != value)
+            {
+                SetProperty(ref field, value);
+            }
+        }
+    } //CanReset
 
-    private bool _canDrawNumber = true;
     public bool CanDrawNumber 
     {
-        get => _canDrawNumber;
-        private set => SetProperty(ref _canDrawNumber, value);
-    }
+        get;
+        private set
+        {
+            if (field != value)
+            {
+                SetProperty(ref field, value);
+            }            
+        }
+    } //CanDrawNumber
 
-	private bool _canChangeBounds = true;
-	public bool CanChangeBounds
+    public bool CanChangeBounds
 	{
-		get => _canChangeBounds;
-		private set => SetProperty(ref _canChangeBounds, value);
-	}
+        get;
+        private set 
+        {
+            if (field != value)
+            {
+                SetProperty(ref field, value);
+            } 
+        }
+
+    } //CanChangeBounds
 
 
-	/// <summary>
-	/// Initializes number list, progress and application state variables to prepare for
-	/// new draw
-	/// </summary>
-	private void ResetNumberList()
+    /// <summary>
+    /// Initializes number list, progress and application state variables to prepare for
+    /// new draw
+    /// </summary>
+    private void ResetNumberList()
     {
         _numberList.Clear();
-        for (int i = _lowerBound; i <= _upperBound; i++)
+        for (int i = LowerBound; i <= UpperBound; i++)
         {
             _numberList.Add(i);
         }
@@ -256,6 +284,11 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel(IPreferencesService prefsService)
    {
         _prefsService = prefsService;
+
+        DrawnNumber = string.Empty;
+        DrawnNumberHistory = string.Empty;
+
+        RestoreState();
 
         ResetNumberList();
 
