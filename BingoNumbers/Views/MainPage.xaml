@@ -119,7 +119,6 @@
                      IsVisible="{Binding CanReset}"
                      VerticalOptions="Center" 
                      BackgroundColor="Transparent"
-                     HorizontalOptions="FillAndExpand"
                      ProgressColor="LightGoldenrodYellow"/>
 
         <!--grid row 2-->
